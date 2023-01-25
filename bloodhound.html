@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>ROR Typeahead Demos</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="shortcut icon" type="image/x-icon" href="https://ror.org/img/favicon.ico">
+
+    <link rel="stylesheet" href="./css/styles.css">
+  </head>
+  <body>
+    <div class="container">
+      <h1 class="title">ROR Typeahead Demos</h1>
+
+      <ol class="table-of-contents">
+        <li><a href="#simple-api">Simple API-based typeahead</a></li><span> &middot; </span>
+        <li><a href="#static-file">Static file + Bloodhound suggestion engine</a></li>
+      </ol>
+
+      <div class="example" id="simple-api">
+        <h2 class="example-name">Simple API-based typeahead</h2>
+        <p class="example-description">
+          This example queries the <a href="https://ror.readme.io/docs/rest-api#search-ror-records">ROR API</a> as the user types and generates suggestions based on the query results.
+          The URL for this query is:
+          <pre>https://api.ror.org/organizations?affiliation=</pre>.
+          This is example uses <a href="https://github.com/twitter/typeahead.js">Twitter typeahead.js</a> and <a href="https://jquery.com/">jQuery</a>, however, it can be created using a variety of typeahead plugins, including those for specific JS frameworks.
+        </p>
+        <div class="demo">
+          <input class="typeahead" type="text" placeholder="Organization">
+        </div>
+        <div class="demo">
+            <input class="typeahead" id="ror-id-01" type="text" placeholder="ROR ID">
+        </div>
+      </div>
+
+      <div class="example" id="static-file">
+        <h2 class="example-name">Static file + Bloodhound suggestion engine</h2>
+        <p class="example-description">
+          This example uses a static data file derived from the <a href="https://ror.readme.io/docs/data-dump">ROR data dump</a>. Fields not needed for the typeahead have been removed to allow a smaller file and flat record structure.
+        </p>
+        <p>
+          This is example also uses <a href="https://github.com/twitter/typeahead.js">Twitter typeahead.js</a> and <a href="https://jquery.com/">jQuery</a>, along with the <a href="https://github.com/twitter/typeahead.js/blob/master/doc/bloodhound.md">Twittter Bloohound suggestion engine</a> for typeahead.js.
+          Using Bloodhound avoids relying on the ROR API, however, it requires loading and indexing a somewhat large file in the user's browser.
+        </p>
+        <div class="demo">
+          <input class="typeahead" type="text" placeholder="Organization">
+        </div>
+        <div class="demo">
+          <input class="typeahead" id="ror-id-02" type="text" placeholder="ROR ID">
+        </div>
+      </div>
+
+       <!--<div class="example" id="prefetch">
+        <h2 class="example-name">Prefetch</h2>
+        <p class="example-description">
+          Prefetched data is fetched and processed on initialization. If the
+          browser supports local storage, the processed data will be cached
+          there to prevent additional network requests on subsequent page loads.
+        </p>
+
+        <div class="demo">
+          <input class="typeahead" type="text" placeholder="Countries">
+        </div>
+
+        <div class="gist">
+          <script src="https://gist.github.com/jharding/9458762.js"></script>
+        </div>
+      </div>
+
+      <div class="example" id="remote">
+        <h2 class="example-name">Remote</h2>
+        <p class="example-description">
+          Remote data is only used when the data provided by local and prefetch
+          is insufficient. In order to prevent an obscene number of requests
+          being made to the remote endpoint, requests are rate-limited.
+        </p>
+
+        <div class="demo">
+          <input class="typeahead" type="text" placeholder="Oscar winners for Best Picture">
+        </div>
+
+        <div class="gist">
+          <script src="https://gist.github.com/jharding/9458772.js"></script>
+        </div>
+      </div>
+
+      <div class="example" id="multiple-datasets">
+        <h2 class="example-name">Multiple Datasets</h2>
+
+        <div class="demo">
+          <input class="typeahead" type="text" placeholder="NBA and NHL teams">
+        </div>
+
+        <div class="gist">
+          <script src="https://gist.github.com/jharding/9458797.js"></script>
+        </div>
+      </div>
+
+      <div class="example" id="scrollable-dropdown-menu">
+        <h2 class="example-name">Scrollable Dropdown Menu</h2>
+
+        <div class="demo">
+          <input class="typeahead" type="text" placeholder="Countries">
+        </div>
+
+        <div class="gist">
+          <script src="https://gist.github.com/jharding/9458816.js"></script>
+        </div>
+      </div>-->
+    </div>
+
+    <script
+  src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+    <script src="https://ror-community.github.io/ror-typeahead-demos/js/ror-flat-min.js"></script>
+    <script src="./js/typeahead.js"></script>
+    <script src="./js/ror-typeahead.js"></script>
+  </body>
+</html>
