@@ -6,114 +6,219 @@
     <title>ROR Typeahead Demos</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="shortcut icon" type="image/x-icon" href="https://ror.org/img/favicon.ico">
-
-    <link rel="stylesheet" href="./css/styles.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+    <link rel="stylesheet" href="./css/ror-widget.css">
   </head>
   <body>
     <div class="container">
-      <h1 class="title">ROR Typeahead Demos</h1>
-
-      <ol class="table-of-contents">
-        <li><a href="#simple-api">Simple API-based typeahead</a></li><span> &middot; </span>
-        <li><a href="#static-file">Static file + Bloodhound suggestion engine</a></li>
-      </ol>
-
-      <div class="example" id="simple-api">
-        <h2 class="example-name">Simple API-based typeahead</h2>
+      <div class="example">
+        <h1 class="title">ROR Typeahead Demos</h1>
+        <!--<ol class="table-of-contents">
+          <li><a href="#basic">Basic institution name typeahead</a></li>
+        </ol>-->
         <p class="example-description">
           This example queries the <a href="https://ror.readme.io/docs/rest-api#search-ror-records">ROR API</a> as the user types and generates suggestions based on the query results.
           The URL for this query is:
-          <pre>https://api.ror.org/organizations?affiliation=</pre>.
+          <pre>https://api.ror.org/organizations?query=</pre>
           This is example uses <a href="https://github.com/twitter/typeahead.js">Twitter typeahead.js</a> and <a href="https://jquery.com/">jQuery</a>, however, it can be created using a variety of typeahead plugins, including those for specific JS frameworks.
         </p>
+      </div>
+      <hr>
+      <div class="example" id="basic">
+        <h2 class="example-name">Basic institution name typeahead</h2>
         <div class="demo">
-          <input class="typeahead" type="text" placeholder="Organization">
-        </div>
-        <div class="demo">
-            <input class="typeahead" id="ror-id-01" type="text" placeholder="ROR ID">
+          <div class="row text-left">
+            <div class="col-md-5">
+              <label for="insitution_name">
+                Institution name
+              </label><br>
+              <input class="typeahead" type="text" name="institution_name" id="name-01">
+              <small class="text-left form-text text-muted">
+                <em>Begin typing to activate a suggestion list. Please choose an institution from the list, if available. If your institution is not listed, continue typing to enter its name manually.</em>
+              </small>
+            </div>
+            <!--<div class="col-md-1">
+              <button type="button" class="btn btn-primary" aria-label="Add another affiliation">
+                <span class="glyphicon glyphicon-plus" aria-hidden="true" data-toggle="tooltip" data-placement="right" title="Add another affiliation"></span>
+              </button>
+            </div>-->
+          </div>
+          <div class="row text-left">
+            <div class="col-md-12">
+              <h3>Data returned from ROR API</h3>
+              <div><pre id="ror-id-01"></pre></div>
+            </div>
+          </div>
         </div>
       </div>
-
-      <div class="example" id="static-file">
-        <h2 class="example-name">Static file + Bloodhound suggestion engine</h2>
-        <p class="example-description">
-          This example uses a static data file derived from the <a href="https://ror.readme.io/docs/data-dump">ROR data dump</a>. Fields not needed for the typeahead have been removed to allow a smaller file and flat record structure.
-        </p>
-        <p>
-          This is example also uses <a href="https://github.com/twitter/typeahead.js">Twitter typeahead.js</a> and <a href="https://jquery.com/">jQuery</a>, along with the <a href="https://github.com/twitter/typeahead.js/blob/master/doc/bloodhound.md">Twittter Bloohound suggestion engine</a> for typeahead.js.
-          Using Bloodhound avoids relying on the ROR API, however, it requires loading and indexing a somewhat large file in the user's browser.
-        </p>
+      <hr>
+      <div class="example" id="basic-department">
+        <h2 class="example-name">Including department-level information</h2>
+        <p>Use ROR to capture the the “top level” organization (ex: University of Wisconsin-Madison). If you also need to capture department, college or other sub-unit information, provide a separate free-text field.</p>
         <div class="demo">
-          <input class="typeahead" type="text" placeholder="Organization">
-        </div>
-        <div class="demo">
-          <input class="typeahead" id="ror-id-02" type="text" placeholder="ROR ID">
+          <div class="row text-left">
+            <div class="col-md-5">
+              <label for="insitution_name">
+                Institution name
+              </label><br>
+              <input class="typeahead" type="text" name="institution_name" id="name-02">
+              <small class="text-left form-text text-muted">
+                <em>Begin typing to activate a suggestion list. Please choose an institution from the list, if available. If your institution is not listed, continue typing to enter its name manually.</em>
+              </small>
+            </div>
+            <div class="col-md-6">
+              <label for="department_subunit_name">
+                Department/Sub-unit
+              </label><br>
+              <input class="form-field" type="text" name="department_subunit_name" id="department-02">
+            </div>
+            <!--<div class="col-md-1">
+              <button type="button" class="btn btn-primary" aria-label="Add another affiliation">
+                <span class="glyphicon glyphicon-plus" aria-hidden="true" data-toggle="tooltip" data-placement="right" title="Add another affiliation"></span>
+              </button>
+            </div>-->
+          </div>
+          <div class="row text-left">
+            <div class="col-md-12">
+              <h3>Data returned from ROR API</h3>
+              <div><pre id="ror-id-02"></pre></div>
+            </div>
+          </div>
         </div>
       </div>
-
-       <!--<div class="example" id="prefetch">
-        <h2 class="example-name">Prefetch</h2>
-        <p class="example-description">
-          Prefetched data is fetched and processed on initialization. If the
-          browser supports local storage, the processed data will be cached
-          there to prevent additional network requests on subsequent page loads.
-        </p>
-
+      <hr>
+      <div class="example" id="addl-info">
+        <h2 class="example-name">Populating other fields with ROR data</h2>
+        <p>Consider populating other fields in your form automatically, using data from the ROR record selected by the user. See the list of ROR record fields in ROR data structure</p>
         <div class="demo">
-          <input class="typeahead" type="text" placeholder="Countries">
-        </div>
-
-        <div class="gist">
-          <script src="https://gist.github.com/jharding/9458762.js"></script>
+          <div class="row text-left">
+            <div class="col-md-5">
+              <label for="insitution_name">
+                Institution name
+              </label><br>
+              <input class="typeahead" type="text" name="institution_name" id="name-03">
+              <small class="text-left form-text text-muted">
+                <em>Begin typing to activate a suggestion list. Please choose an institution from the list, if available. If your institution is not listed, continue typing to enter its name manually.</em>
+              </small>
+            </div>
+            <div class="col-md-6">
+              <label for="department_subunit_name">
+                Department/Sub-unit
+              </label><br>
+              <input class="form-field" type="text" name="department_subunit_name" id="department-03">
+            </div>
+            <!--<div class="col-md-1">
+              <button type="button" class="btn btn-primary" aria-label="Add another affiliation">
+                <span class="glyphicon glyphicon-plus" aria-hidden="true" data-toggle="tooltip" data-placement="right" title="Add another affiliation"></span>
+              </button>
+            </div>-->
+          </div>
+          <div class="row text-left">
+            <div class="col-md-5">
+              <label for="institution_city">
+                City
+              </label><br>
+              <input class="form-field" type="text" name="institution_city" id="city-03">
+            </div>
+            <div class="col-md-6">
+              <label for="institution_country">
+                Country
+              </label><br>
+              <input class="form-field" type="text" name="institution_country" id="country-03">
+            </div>
+            <!--<div class="col-md-1">
+              <button type="button" class="btn btn-primary" aria-label="Add another affiliation">
+                <span class="glyphicon glyphicon-plus" aria-hidden="true" data-toggle="tooltip" data-placement="right" title="Add another affiliation"></span>
+              </button>
+            </div>-->
+          </div>
+          <div class="row text-left">
+            <div class="col-md-12">
+              <h3>Data returned from ROR API</h3>
+              <div><pre id="ror-id-03"></pre></div>
+            </div>
+          </div>
         </div>
       </div>
+        <!--<div class="row">
+          <fieldset>
+            <legend class="text-left">Institutional affiliation</legend>
+            <div class="pull-left">
+            <div class="pull-left" style="width:45%;">
+              <div class="pull-left">
+                <label class="pull-left" for="insitution_name">
+                  Institution name
+                </label><br>
+                <input class="typeahead" type="text" name="institution_name" id="name">
+                <small class="pull-left text-left form-text text-muted" style="margin-right: 1.5em;">
+                  Begin typing to activate a suggestion list. Please choose an institution from the list, if available. If your institution is not listed, enter its name manually.
+                </small>
+              </div>
+              <div class="pull-left">
+                <label class="pull-left" for="institution_city">
+                  City
+                </label><br>
+                <input class="form-field" id="city" name="institution_city" type="text">
+              </div>
+              <div class="pull-left">
+                <label class="pull-left" for="insitution_ror">
+                  ROR identifier
+                </label><br>
+                <input class="form-field" id="ror-id-01" name="insitution_ror">
+              </div>
+            </div>
+          </fieldset>
+          </div>
 
-      <div class="example" id="remote">
-        <h2 class="example-name">Remote</h2>
-        <p class="example-description">
-          Remote data is only used when the data provided by local and prefetch
-          is insufficient. In order to prevent an obscene number of requests
-          being made to the remote endpoint, requests are rate-limited.
-        </p>
+          <div class="pull-left">
+              <label class="pull-left" for="insitution_name">
+                Country
+              </label><br>
+              <input class="form-field" id="country" type="text">
+            </div>
+            <div class="pull-left"></div>
+            <div class="pull-left" style="width:45%;">
+              <div class="pull-left">
+                <label class="pull-left" for="insitution_name">
+                  Institution name
+                </label><br>
+                <input class="typeahead" type="text" name="institution_name" id="name">
+                <small class="pull-left text-left form-text text-muted" style="margin-right: 1.5em;">
+                  Begin typing to activate a suggestion list. Please choose an institution from the list, if available. If your institution is not listed, enter its name manually.
+                </small>
+              </div>
+              <div class="pull-left">
+                <label class="pull-left" for="insitution_name">
+                  City
+                </label><br>
+                <input class="form-field" id="city" type="text">
+              </div>
+              <div class="pull-left">
+                <label class="pull-left" for="insitution_name">
+                  ROR identifier
+                </label><br>
+                <input class="form-field" id="ror-id-01">
+              </div>
+            </div>
+            <div class="pull-left" style="width:45%;">
+                <label class="pull-left" for="department_subunit_name">
+                  Department/sub-unit
+                </label><br>
+                <input class="form-field" type="text" name="department_subunit" id="department_subunit">
+              </div>
+            <button type="button" class="btn btn-primary" aria-label="Add another affiliation">
+              <span class="glyphicon glyphicon-plus" aria-hidden="true" data-toggle="tooltip" data-placement="right" title="Add another affiliation"></span>
+            </button>
+          </div>
 
-        <div class="demo">
-          <input class="typeahead" type="text" placeholder="Oscar winners for Best Picture">
-        </div>
 
-        <div class="gist">
-          <script src="https://gist.github.com/jharding/9458772.js"></script>
-        </div>
-      </div>
-
-      <div class="example" id="multiple-datasets">
-        <h2 class="example-name">Multiple Datasets</h2>
-
-        <div class="demo">
-          <input class="typeahead" type="text" placeholder="NBA and NHL teams">
-        </div>
-
-        <div class="gist">
-          <script src="https://gist.github.com/jharding/9458797.js"></script>
-        </div>
-      </div>
-
-      <div class="example" id="scrollable-dropdown-menu">
-        <h2 class="example-name">Scrollable Dropdown Menu</h2>
-
-        <div class="demo">
-          <input class="typeahead" type="text" placeholder="Countries">
-        </div>
-
-        <div class="gist">
-          <script src="https://gist.github.com/jharding/9458816.js"></script>
-        </div>
-      </div>-->
+        </div>-->
     </div>
 
     <script
   src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
-    <script src="https://ror-community.github.io/ror-typeahead-demos/js/ror-flat-min.js"></script>
     <script src="./js/typeahead.js"></script>
     <script src="./js/ror-typeahead.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
   </body>
 </html>

@@ -1,6 +1,6 @@
-var ROR_API_URL = "https://api.ror.org/organizations?affiliation="
+var ROR_API_URL = "https://api.ror.org/organizations?query="
 
-$('#simple-api .typeahead').typeahead({
+$('#basic .typeahead, #basic-department .typeahead, #addl-info .typeahead').typeahead({
     hint: true,
     highlight: true,
     minLength: 3
@@ -27,56 +27,46 @@ $('#simple-api .typeahead').typeahead({
         '</div>'
       ].join('\n'),
       suggestion: function (data) {
-          return '<p><strong>' + data.organization.name + '</strong><br>' + data.organization.types[0] + ', ' + data.organization.country.country_name + '</p>';
+          return '<p><strong>' + data.name + '</strong><br>' + data.types[0] + ', ' + data.country.country_name + '</p>';
       }
     },
     display: function (data) {
-      return data.organization.name;
+      return data.name;
     },
     value: function(data) {
-      return data.organization.identifier;
+      return data.identifier;
     }
 });
 
-$('#simple-api .typeahead').bind('typeahead:select', function(ev, suggestion) {
-  $('#ror-id-01').val(suggestion.organization.id);
+$('#basic .typeahead').bind('typeahead:select', function(ev, suggestion) {
+  console.log(suggestion)
+  $('#ror-id-01').html(JSON.stringify(suggestion, undefined, 4));
 });
 
-var orgs = new Bloodhound({
-  datumTokenizer: Bloodhound.tokenizers.obj.whitespace('name', 'acronyms', 'aliases', 'labels'),
-  queryTokenizer: Bloodhound.tokenizers.whitespace,
-  local: ORGS
+$('#basic #name-01').bind('change', function() {
+  $('#ror-id-01').html('');
 });
 
-orgs.initialize();
-
-$('#static-file  .typeahead').typeahead({
-  hint: true,
-  highlight: true,
-  minLength: 3
-},
-{
-  limit: 50,
-  async: true,
-  source: orgs,
-  templates: {
-    pending: [
-      '<div class="empty-message">',
-        'Fetching organizations list',
-      '</div>'
-    ].join('\n'),
-    suggestion: function (data) {
-        return '<p><strong>' + data.name + '</strong><br>' + data.type + ', ' + data.country_name + '</p>';
-    }
-  },
-  display: function (data) {
-    return data.name;
-  },
-  value: function(data) {
-    return data.identifier;
-  }
+$('#basic-department .typeahead').bind('typeahead:select', function(ev, suggestion) {
+  console.log(suggestion)
+  $('#city').val(suggestion.addresses[0]['city']);
+  $('#country').val(suggestion.country.country_name);
+  $('#ror-id-02').html(JSON.stringify(suggestion, undefined, 4));
 });
 
-$('#static-file .typeahead').bind('typeahead:select', function(ev, suggestion) {
-  $('#ror-id-02').val(suggestion.id);
+$('#basic #name-02').bind('change', function() {
+  $('#ror-id-02').html('');
+});
+
+$('#addl-info .typeahead').bind('typeahead:select', function(ev, suggestion) {
+  console.log(suggestion)
+  $('#city-03').val(suggestion.addresses[0]['city']);
+  $('#country-03').val(suggestion.country.country_name);
+  $('#ror-id-03').html(JSON.stringify(suggestion, undefined, 4));
+});
+
+$('#addl-info #name-03').bind('change', function() {
+  $('#city-03').val('');
+  $('#country-03').val('');
+  $('#ror-id-03').html('');
 });
