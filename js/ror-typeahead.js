@@ -27,7 +27,19 @@ $('#basic .typeahead, #basic-department .typeahead, #addl-info .typeahead').type
         '</div>'
       ].join('\n'),
       suggestion: function (data) {
-          return '<p><strong>' + data.name + '</strong><br>' + data.types[0] + ', ' + data.country.country_name + '</p>';
+          altNames = ""
+          if(data.aliases.length > 0) {
+            for (let i = 0; i < data.aliases.length; i++){
+                altNames += data.aliases[i] + ", ";
+            }
+          }
+          if(data.acronyms.length > 0) {
+            for (let i = 0; i < data.acronyms.length; i++){
+                altNames += data.acronyms[i] + ", ";
+            }
+          }
+          altNames = altNames.replace(/,\s*$/, "");
+          return '<p>' + data.name + '<br><small>' + data.types[0] + ', ' + data.country.country_name + '<br><i>'+ altNames + '</i></small></p>';
       }
     },
     display: function (data) {
