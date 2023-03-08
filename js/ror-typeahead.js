@@ -38,6 +38,11 @@ $('#basic .typeahead, #basic-department .typeahead, #addl-info .typeahead').type
                 altNames += data.acronyms[i] + ", ";
             }
           }
+          if(data.labels.length > 0) {
+            for (let i = 0; i < data.labels.length; i++){
+                altNames += data.labels[i].label + ", ";
+            }
+          }
           altNames = altNames.replace(/,\s*$/, "");
           return '<p>' + data.name + '<br><small>' + data.types[0] + ', ' + data.country.country_name + '<br><i>'+ altNames + '</i></small></p>';
       }
