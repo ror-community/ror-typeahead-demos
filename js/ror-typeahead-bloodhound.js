@@ -1,4 +1,4 @@
-var ROR_API_URL = "https://api.ror.org/organizations?affiliation="
+var ROR_API_URL = "https://api.ror.org/v1/organizations?affiliation="
 
 $('#simple-api .typeahead').typeahead({
     hint: true,
