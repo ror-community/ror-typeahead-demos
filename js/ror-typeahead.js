@@ -1,4 +1,4 @@
-var ROR_API_URL = "https://api.ror.org/v1/organizations?query="
+var ROR_API_URL = "https://api.ror.org/v2/organizations?query="
 
 $('#basic .typeahead, #basic-department .typeahead, #addl-info .typeahead').typeahead({
     hint: true,
@@ -27,31 +27,35 @@ $('#basic .typeahead, #basic-department .typeahead, #addl-info .typeahead').type
         '</div>'
       ].join('\n'),
       suggestion: function (data) {
-          altNames = ""
-          if(data.aliases.length > 0) {
-            for (let i = 0; i < data.aliases.length; i++){
-                altNames += data.aliases[i] + ", ";
+          var altNames = "";
+          
+          if(data.names && data.names.length > 0) {
+            for (let i = 0; i < data.names.length; i++){
+              // Include aliases, acronyms, and labels, but exclude ror_display
+              if((data.names[i].types.includes('alias') || 
+                  data.names[i].types.includes('acronym') || 
+                  data.names[i].types.includes('label')) && 
+                 !data.names[i].types.includes('ror_display')) {
+                altNames += data.names[i].value + ", ";
+              }
             }
           }
-          if(data.acronyms.length > 0) {
-            for (let i = 0; i < data.acronyms.length; i++){
-                altNames += data.acronyms[i] + ", ";
-            }
-          }
-          if(data.labels.length > 0) {
-            for (let i = 0; i < data.labels.length; i++){
-                altNames += data.labels[i].label + ", ";
-            }
-          }
+          
           altNames = altNames.replace(/,\s*$/, "");
-          return '<p>' + data.name + '<br><small>' + data.types[0] + ', ' + data.country.country_name + '<br><i>'+ altNames + '</i></small></p>';
-      }
+          
+          var displayName = data.names?.find(name => name.types.includes('ror_display'))?.value || '';
+          var orgType = data.types?.[0] ? data.types[0].charAt(0).toUpperCase() + data.types[0].slice(1) : '';
+          var cityName = data.locations[0].geonames_details?.name || '';
+          var countryName = data.locations[0].geonames_details?.country_name || '';
+          
+          return '<p>' + displayName + '<br><small>' + orgType + ' - ' + cityName + ', ' + countryName + '<br><i>'+ altNames + '</i></small></p>';      
+          }
     },
     display: function (data) {
-      return data.name;
+      return data.names?.find(name => name.types.includes('ror_display'))?.value || '';
     },
     value: function(data) {
-      return data.identifier;
+      return data.id;
     }
 });
 
@@ -66,8 +70,10 @@ $('#basic #name-01').bind('change', function() {
 
 $('#basic-department .typeahead').bind('typeahead:select', function(ev, suggestion) {
   console.log(suggestion)
-  $('#city').val(suggestion.addresses[0]['city']);
-  $('#country').val(suggestion.country.country_name);
+  var cityName = suggestion.locations[0].geonames_details.name || '';
+  var countryName = suggestion.locations[0].geonames_details.country_name || '';
+  $('#city').val(cityName);
+  $('#country').val(countryName);
   $('#ror-id-02').html(JSON.stringify(suggestion, undefined, 4));
 });
 
@@ -77,8 +83,10 @@ $('#basic #name-02').bind('change', function() {
 
 $('#addl-info .typeahead').bind('typeahead:select', function(ev, suggestion) {
   console.log(suggestion)
-  $('#city-03').val(suggestion.addresses[0]['city']);
-  $('#country-03').val(suggestion.country.country_name);
+  var cityName = suggestion.locations[0].geonames_details.name || '';
+  var countryName = suggestion.locations[0].geonames_details.country_name || '';
+  $('#city-03').val(cityName);
+  $('#country-03').val(countryName);
   $('#ror-id-03').html(JSON.stringify(suggestion, undefined, 4));
 });
 
